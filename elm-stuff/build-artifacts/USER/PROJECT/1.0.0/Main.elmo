@@ -1,0 +1,127 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values)
+   return _elm.Main.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Main",
+   $Basics = Elm.Basics.make(_elm),
+   $FlashCard = Elm.FlashCard.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp$Simple = Elm.StartApp.Simple.make(_elm);
+   var Reset = {ctor: "Reset"};
+   var resetButton = function (address) {
+      return A2($Html.div,
+      _L.fromArray([$Html$Attributes.$class("reset-button")]),
+      _L.fromArray([A2($Html.button,
+      _L.fromArray([A2($Html$Events.onClick,
+      address,
+      Reset)]),
+      _L.fromArray([$Html.text("Start Over")]))]));
+   };
+   var Modify = function (a) {
+      return {ctor: "Modify"
+             ,_0: a};
+   };
+   var Select = function (a) {
+      return {ctor: "Select"
+             ,_0: a};
+   };
+   var operatorButton = F2(function (address,
+   op) {
+      return A2($Html.button,
+      _L.fromArray([$Html$Events.onClick(address)(Select(op))]),
+      _L.fromArray([$Html.text($FlashCard.operator(op))]));
+   });
+   var view = F2(function (address,
+   model) {
+      return function () {
+         var _v0 = model.flashCard;
+         switch (_v0.ctor)
+         {case "Just":
+            return A2($Html.div,
+              _L.fromArray([$Html$Attributes.$class("container")]),
+              _L.fromArray([A2($FlashCard.view,
+                           A2($Signal.forwardTo,
+                           address,
+                           Modify),
+                           _v0._0)
+                           ,resetButton(address)]));
+            case "Nothing":
+            return A2($Html.div,
+              _L.fromArray([$Html$Attributes.$class("container")]),
+              _L.fromArray([A2($Html.div,
+              _L.fromArray([$Html$Attributes.$class("choose-operator")]),
+              A2($List.map,
+              operatorButton(address),
+              model.operators))]));}
+         _U.badCase($moduleName,
+         "between lines 50 and 60");
+      }();
+   });
+   var initialModel = {_: {}
+                      ,flashCard: $Maybe.Nothing
+                      ,operators: _L.fromArray([$FlashCard.Add
+                                               ,$FlashCard.Sub
+                                               ,$FlashCard.Mul
+                                               ,$FlashCard.Div])};
+   var update = F2(function (action,
+   model) {
+      return function () {
+         switch (action.ctor)
+         {case "Modify":
+            return function () {
+                 var _v5 = model.flashCard;
+                 switch (_v5.ctor)
+                 {case "Just":
+                    return _U.replace([["flashCard"
+                                       ,$Maybe.Just(A2($FlashCard.update,
+                                       action._0,
+                                       _v5._0))]],
+                      model);
+                    case "Nothing": return model;}
+                 _U.badCase($moduleName,
+                 "between lines 38 and 43");
+              }();
+            case "Reset":
+            return initialModel;
+            case "Select":
+            return _U.replace([["flashCard"
+                               ,$Maybe.Just($FlashCard.init(action._0))]],
+              model);}
+         _U.badCase($moduleName,
+         "between lines 34 and 44");
+      }();
+   });
+   var main = $StartApp$Simple.start({_: {}
+                                     ,model: initialModel
+                                     ,update: update
+                                     ,view: view});
+   var Model = F2(function (a,b) {
+      return {_: {}
+             ,flashCard: a
+             ,operators: b};
+   });
+   _elm.Main.values = {_op: _op
+                      ,Model: Model
+                      ,initialModel: initialModel
+                      ,Select: Select
+                      ,Modify: Modify
+                      ,Reset: Reset
+                      ,update: update
+                      ,view: view
+                      ,operatorButton: operatorButton
+                      ,resetButton: resetButton
+                      ,main: main};
+   return _elm.Main.values;
+};

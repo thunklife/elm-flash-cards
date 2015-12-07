@@ -1,0 +1,325 @@
+Elm.FlashCard = Elm.FlashCard || {};
+Elm.FlashCard.make = function (_elm) {
+   "use strict";
+   _elm.FlashCard = _elm.FlashCard || {};
+   if (_elm.FlashCard.values)
+   return _elm.FlashCard.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "FlashCard",
+   $Basics = Elm.Basics.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Random = Elm.Random.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
+   var operator = function (op) {
+      return function () {
+         switch (op.ctor)
+         {case "Add": return "+";
+            case "Div": return "÷";
+            case "Mul": return "x";
+            case "Sub": return "-";}
+         _U.badCase($moduleName,
+         "between lines 198 and 202");
+      }();
+   };
+   var toInt = function (c) {
+      return function () {
+         var _v1 = $String.toInt(c);
+         switch (_v1.ctor)
+         {case "Ok": return _v1._0;}
+         return 0;
+      }();
+   };
+   var NextQuestion = {ctor: "NextQuestion"};
+   var nextButton = function (address) {
+      return A2($Html.div,
+      _L.fromArray([$Html$Attributes.$class("next-container")]),
+      _L.fromArray([A2($Html.button,
+      _L.fromArray([A2($Html$Events.onClick,
+      address,
+      NextQuestion)]),
+      _L.fromArray([$Html.text("Next")]))]));
+   };
+   var successBox = F2(function (address,
+   model) {
+      return function () {
+         var _v3 = model.isCorrect;
+         switch (_v3)
+         {case false:
+            return A2($Html.div,
+              _L.fromArray([$Html$Attributes.$class("solution")]),
+              _L.fromArray([A2($Html.p,
+                           _L.fromArray([]),
+                           _L.fromArray([$Html.text("The correct answer is: ")
+                                        ,A2($Html.span,
+                                        _L.fromArray([$Html$Attributes.$class("correct-solution")]),
+                                        _L.fromArray([$Html.text($Basics.toString(model.answer))]))]))
+                           ,nextButton(address)]));
+            case true: return A2($Html.div,
+              _L.fromArray([$Html$Attributes.$class("solution")]),
+              _L.fromArray([A2($Html.p,
+                           _L.fromArray([]),
+                           _L.fromArray([$Html.text("Good Job!")]))
+                           ,nextButton(address)]));}
+         _U.badCase($moduleName,
+         "between lines 140 and 155");
+      }();
+   });
+   var GiveUp = {ctor: "GiveUp"};
+   var SubmitAnswer = {ctor: "SubmitAnswer"};
+   var UpdateInput = function (a) {
+      return {ctor: "UpdateInput"
+             ,_0: a};
+   };
+   var flashCard = F2(function (address,
+   model) {
+      return A2($Html.div,
+      _L.fromArray([$Html$Attributes.$class("card-container")]),
+      _L.fromArray([A2($Html.div,
+                   _L.fromArray([$Html$Attributes.$class("flash-card")]),
+                   _L.fromArray([A2($Html.div,
+                                _L.fromArray([$Html$Attributes.$class("operator")]),
+                                _L.fromArray([$Html.text(operator(model.operator))]))
+                                ,A2($Html.div,
+                                _L.fromArray([$Html$Attributes.$class("factors")]),
+                                _L.fromArray([A2($Html.h2,
+                                             _L.fromArray([]),
+                                             _L.fromArray([$Html.text($Basics.toString(model.numA))]))
+                                             ,A2($Html.h2,
+                                             _L.fromArray([]),
+                                             _L.fromArray([$Html.text($Basics.toString(model.numB))]))]))
+                                ,A2($Html.div,
+                                _L.fromArray([$Html$Attributes.$class("answer")]),
+                                _L.fromArray([A2($Html.input,
+                                _L.fromArray([$Html$Attributes.id("search")
+                                             ,A3($Html$Events.on,
+                                             "input",
+                                             $Html$Events.targetValue,
+                                             function (s) {
+                                                return A2($Signal.message,
+                                                address,
+                                                UpdateInput(s));
+                                             })
+                                             ,$Html$Attributes.autofocus(true)]),
+                                _L.fromArray([]))]))]))
+                   ,A2($Html.div,
+                   _L.fromArray([$Html$Attributes.$class("actions")]),
+                   _L.fromArray([A2($Html.button,
+                                _L.fromArray([A2($Html$Events.onClick,
+                                             address,
+                                             SubmitAnswer)
+                                             ,$Html$Attributes.$class("give-up")]),
+                                _L.fromArray([$Html.text("?")]))
+                                ,A2($Html.button,
+                                _L.fromArray([A2($Html$Events.onClick,
+                                             address,
+                                             SubmitAnswer)
+                                             ,$Html$Attributes.$class("submit")]),
+                                _L.fromArray([$Html.text("✓")]))]))]));
+   });
+   var view = F2(function (address,
+   model) {
+      return function () {
+         var _v4 = model.isAnswered;
+         switch (_v4)
+         {case false:
+            return A2(flashCard,
+              address,
+              model);
+            case true: return A2(successBox,
+              address,
+              model);}
+         _U.badCase($moduleName,
+         "between lines 131 and 135");
+      }();
+   });
+   var solve = function (op) {
+      return function () {
+         switch (op.ctor)
+         {case "Add":
+            return F2(function (x,y) {
+                 return x + y;
+              });
+            case "Div":
+            return F2(function (x,y) {
+                 return x / y | 0;
+              });
+            case "Mul":
+            return F2(function (x,y) {
+                 return x * y;
+              });
+            case "Sub":
+            return F2(function (x,y) {
+                 return x - y;
+              });}
+         _U.badCase($moduleName,
+         "between lines 60 and 64");
+      }();
+   };
+   var initialSeed = $Random.initialSeed(10020);
+   var genRand = function (s) {
+      return $Random.generate(A2($Random.$int,
+      0,
+      10))(s);
+   };
+   var numA = $Basics.fst(genRand($Random.initialSeed(10000)));
+   var numB = $Basics.fst(genRand($Random.initialSeed(10001)));
+   var newRands = F2(function (op,
+   seed) {
+      return function () {
+         var $ = genRand(seed),
+         a = $._0,
+         s = $._1;
+         var $ = genRand(s),
+         b = $._0,
+         s$ = $._1;
+         return function () {
+            switch (op.ctor)
+            {case "Add":
+               return {ctor: "_Tuple3"
+                      ,_0: a
+                      ,_1: b
+                      ,_2: s$};
+               case "Mul":
+               return {ctor: "_Tuple3"
+                      ,_0: a
+                      ,_1: b
+                      ,_2: s$};}
+            return _U.cmp(a,
+            b) > -1 ? {ctor: "_Tuple3"
+                      ,_0: a
+                      ,_1: b
+                      ,_2: s$} : _U.cmp(a,
+            b) < 0 ? {ctor: "_Tuple3"
+                     ,_0: b
+                     ,_1: a
+                     ,_2: s$} : _U.badIf($moduleName,
+            "between lines 54 and 55");
+         }();
+      }();
+   });
+   var init = function (op) {
+      return function () {
+         var $ = A2(newRands,
+         op,
+         initialSeed),
+         a = $._0,
+         b = $._1,
+         s = $._2;
+         return {_: {}
+                ,answer: A3(solve,op,a,b)
+                ,input: ""
+                ,isAnswered: false
+                ,isCorrect: false
+                ,numA: a
+                ,numB: b
+                ,operator: op
+                ,seed: initialSeed};
+      }();
+   };
+   var update = F2(function (action,
+   model) {
+      return function () {
+         switch (action.ctor)
+         {case "GiveUp":
+            return _U.replace([["isAnswered"
+                               ,true]],
+              model);
+            case "NextQuestion":
+            return function () {
+                 var $ = A2(newRands,
+                 model.operator,
+                 model.seed),
+                 a = $._0,
+                 b = $._1,
+                 s = $._2;
+                 return {_: {}
+                        ,answer: A3(solve,
+                        model.operator,
+                        a,
+                        b)
+                        ,input: ""
+                        ,isAnswered: false
+                        ,isCorrect: false
+                        ,numA: a
+                        ,numB: b
+                        ,operator: model.operator
+                        ,seed: s};
+              }();
+            case "SubmitAnswer":
+            return function () {
+                 var correct = _U.eq(toInt(model.input),
+                 model.answer);
+                 return _U.replace([["isCorrect"
+                                    ,correct]
+                                   ,["isAnswered",true]],
+                 model);
+              }();
+            case "UpdateInput":
+            return _U.replace([["input"
+                               ,action._0]],
+              model);}
+         _U.badCase($moduleName,
+         "between lines 103 and 125");
+      }();
+   });
+   var randomFactor = function (s) {
+      return $Basics.fst(genRand(s));
+   };
+   var Model = F8(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g,
+   h) {
+      return {_: {}
+             ,answer: d
+             ,input: c
+             ,isAnswered: h
+             ,isCorrect: g
+             ,numA: a
+             ,numB: b
+             ,operator: e
+             ,seed: f};
+   });
+   var Div = {ctor: "Div"};
+   var Mul = {ctor: "Mul"};
+   var Sub = {ctor: "Sub"};
+   var Add = {ctor: "Add"};
+   _elm.FlashCard.values = {_op: _op
+                           ,Add: Add
+                           ,Sub: Sub
+                           ,Mul: Mul
+                           ,Div: Div
+                           ,Model: Model
+                           ,genRand: genRand
+                           ,numA: numA
+                           ,numB: numB
+                           ,initialSeed: initialSeed
+                           ,newRands: newRands
+                           ,solve: solve
+                           ,init: init
+                           ,UpdateInput: UpdateInput
+                           ,SubmitAnswer: SubmitAnswer
+                           ,GiveUp: GiveUp
+                           ,NextQuestion: NextQuestion
+                           ,randomFactor: randomFactor
+                           ,toInt: toInt
+                           ,update: update
+                           ,view: view
+                           ,successBox: successBox
+                           ,nextButton: nextButton
+                           ,flashCard: flashCard
+                           ,operator: operator};
+   return _elm.FlashCard.values;
+};
