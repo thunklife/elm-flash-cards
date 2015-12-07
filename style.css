@@ -19,20 +19,23 @@ button {
   width: 350px;
 }
 
-.choose-operator {
-  text-align: center;
-}
-
 .choose-operator button {
   background-color: #29B6F6;
-  margin: 25px;
   width: 25%;
   text-align: center;
-  height: 150px;
-  width: 150px;
-  margin: 12.5px;
+  height: 162px;
+  width: 162px;
   font-size: 60px;
   line-height: 0;
+}
+
+.choose-operator button:first-of-type {
+  margin-right: 25px;
+  margin-bottom: 25px;
+}
+
+.choose-operator button:last-of-type {
+  margin-left: 25px;
 }
 
 .choose-operator button:hover {
@@ -103,7 +106,7 @@ button {
 
 .actions button {
   height: 100px;
-  width: 45%;
+  width: 162px;
   font-size: 60px;
   line-height: 0px;
 }
@@ -118,7 +121,7 @@ button {
 
 .give-up {
   background-color: #26C6DA;
-  margin-right: 35px;
+  margin-right: 25px;
 
 }
 
