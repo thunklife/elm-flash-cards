@@ -139,42 +139,64 @@ successBox : Signal.Address Action -> Model -> Html
 successBox address model =
   case model.isCorrect of
     True ->
-      div [ class "correct-answer" ]
-          [ text "GOOD JOB!"
+      div [ class "solution" ]
+          [
+           p []
+             [ text "Good Job!" ]
           , nextButton address
           ]
     False ->
-      div [ class "wrong-answer" ]
-          [ text "Sorry"
-          , span [] [ text <| "The correct answer is" ++ (toString model.answer) ]
+      div [ class "solution" ]
+          [ p [] [ text "The correct answer is: "
+                 , span [ class "correct-solution" ]
+                        [ text <| toString model.answer ]
+                 ]
           , nextButton address
           ]
 
 
 nextButton : Signal.Address Action -> Html
 nextButton address =
-  button [ onClick address NextQuestion ]
-         [ text "Next" ]
+  div [ class "next-container" ]
+      [ button [ onClick address NextQuestion ]
+               [ text "Next" ]
+      ]
 
 
 flashCard : Signal.Address Action -> Model -> Html
 flashCard  address model =
-  div [ class "flash-card" ]
-      [ div [ class "operator" ]
-            [ text "x" ]
-      , div [ class "factors" ]
-            [ h2 [] [ text <| toString model.numA ]
-            , h2 [] [ text <| toString model.numB ]
+  div [ class "card-container" ]
+      [ div [ class "flash-card" ]
+            [ div [ class "operator" ]
+                  [ text <| operator model.operator ]
+            , div [ class "factors" ]
+                  [ h2 [] [ text <| toString model.numA ]
+                  , h2 [] [ text <| toString model.numB ]
+                  ]
+            , div [ class "answer" ]
+                  [ input [ id "search"
+                          , on "input" targetValue (\s -> Signal.message address (UpdateInput s))
+                          , autofocus True
+                          ]
+                          []
+                  ]
+             ]
+      , div [ class "actions" ]
+            [ button [ onClick address SubmitAnswer
+                     , class "give-up"
+                     ]
+                     [ text "?" ]
+            , button [ onClick address SubmitAnswer
+                     , class "submit"
+                     ]
+                     [ text "✓" ]
             ]
-      , div [ class "answer" ]
-            [ input [ id "search"
-                    , on "input" targetValue (\s -> Signal.message address (UpdateInput s))
-                    , autofocus True
-                    ]
-                    []
-            ]
-      , button [ onClick address SubmitAnswer]
-               [ text "Submit" ]
-      , button [ onClick address SubmitAnswer]
-               [ text "Give Up" ]
       ]
+
+operator : Operator -> String
+operator op =
+  case op of
+    Add -> "+"
+    Mul -> "x"
+    Sub -> "-"
+    Div -> "÷"

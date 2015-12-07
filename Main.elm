@@ -6,7 +6,6 @@ import Html exposing (..)
 import Html.Events exposing (..)
 import Html.Attributes exposing (..)
 import FlashCard as FC
-import String as S
 
 import StartApp.Simple as StartApp
 
@@ -50,13 +49,12 @@ view : Signal.Address Action -> Model -> Html
 view address model =
   case model.flashCard of
     Nothing ->
-      div []
+      div [ class "container" ]
           [ div [ class "choose-operator"]
                 (List.map (operatorButton address) model.operators)
-          , resetButton address
           ]
     (Just flashCard) ->
-      div []
+      div [ class "container" ]
           [ FC.view (Signal.forwardTo address Modify) flashCard
           , resetButton address
           ]
@@ -64,19 +62,13 @@ view address model =
 
 operatorButton : Signal.Address Action -> FC.Operator -> Html
 operatorButton address op =
-  button [ class <| operatorText op
-         , onClick address <| Select op]
-         [ text <| operatorText op ]
+  button [ onClick address <| Select op]
+         [ text <| FC.operator op ]
 
 resetButton : Signal.Address Action -> Html
 resetButton address =
-  button [ class "reset"
-         , onClick address Reset
-         ]
-         [ text "Start Over" ]
-
-operatorText : FC.Operator -> String
-operatorText = S.toLower << toString
+  div [ class "reset-button" ]
+      [ button [ onClick address Reset] [ text "Start Over" ] ]
 
 main : Signal Html
 main = StartApp.start { view = view, update = update, model = initialModel }
