@@ -1,0 +1,152 @@
+body {
+  background-color: #cfd8dc;
+  font-family: Helvetica, sans-serif
+}
+button {
+  border-radius: 2px;
+  border: none;
+  padding: 25px;
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+}
+.container {
+  margin: 100px auto;
+  width: 350px;
+}
+
+.choose-operator {
+  text-align: center;
+}
+
+.choose-operator button {
+  background-color: #29B6F6;
+  margin: 25px;
+  width: 25%;
+  text-align: center;
+  height: 114px;
+  width: 114px;
+  margin: 12.5px;
+}
+
+.choose-operator button:hover {
+  background-color: #039BE5;
+}
+
+
+.reset-button {
+  text-align: center;
+}
+
+.reset-button button {
+  background-color: #E0E0E0;
+  width: 100%;
+}
+
+.reset-button button:hover {
+  background-color: #BDBDBD;
+}
+
+.flash-card {
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 25px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.operator {
+  display: inline-block;
+  width: 25%;
+  text-align: right;
+  padding-right: 25px;
+  font-size: 60px;
+}
+
+.factors {
+  display: inline-block;
+  font-size: 50px;
+  padding-left: 30px;
+  line-height: 35px;
+}
+
+.answer {
+  text-align: center;
+  border-top: 2px solid black;
+  padding-top: 25px;
+}
+
+.answer input{
+  padding: 25px;
+  font-size: 60px;
+  width: 250px;
+  border: none;
+  text-align: center;
+  font-weight: bold;
+}
+
+.answer input:focus {
+  outline: none;
+}
+
+.actions {
+  padding: 25px 0;
+  text-align: center;
+}
+
+.actions button {
+  height: 100px;
+  width: 45%;
+  font-weight: bold;
+}
+
+.submit {
+  background-color: #66BB6A;
+}
+
+.submit:hover {
+  background-color: #43A047;
+}
+
+.give-up {
+  background-color: #26C6DA;
+  margin-right: 35px;
+
+}
+
+.give-up:hover {
+  background-color: #00ACC1
+}
+
+.solution {
+  font-size: 60px;
+  color: white;
+  text-align: center;
+}
+
+.correct-solution {
+  display: block;
+  color: #EC407A;
+  font-weight: bold;
+  font-size: 100px;
+}
+
+.next-question {
+  height: 100px;
+  width: 100px;
+}
+
+.next-container {
+  text-align: center;
+}
+
+.next-container button {
+  background-color: #29B6F6;
+  margin-bottom: 25px;
+  width: 100%;
+  text-align: center;
+}
+
+.next-container button:hover {
+  background-color: #039BE5;
+}
