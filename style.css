@@ -1,15 +1,19 @@
 body {
   background-color: #cfd8dc;
-  font-family: Helvetica, sans-serif
+  font-family: Helvetica, sans-serif;
+  font-weight: bold;
 }
+
 button {
   border-radius: 2px;
   border: none;
   padding: 25px;
-  font-size: 32px;
+  font-size: 40px;
   color: white;
   cursor: pointer;
+  font-weight: bold;
 }
+
 .container {
   margin: 100px auto;
   width: 350px;
@@ -24,9 +28,11 @@ button {
   margin: 25px;
   width: 25%;
   text-align: center;
-  height: 114px;
-  width: 114px;
+  height: 150px;
+  width: 150px;
   margin: 12.5px;
+  font-size: 60px;
+  line-height: 0;
 }
 
 .choose-operator button:hover {
@@ -41,6 +47,7 @@ button {
 .reset-button button {
   background-color: #E0E0E0;
   width: 100%;
+  font-size: 40px;
 }
 
 .reset-button button:hover {
@@ -97,7 +104,8 @@ button {
 .actions button {
   height: 100px;
   width: 45%;
-  font-weight: bold;
+  font-size: 60px;
+  line-height: 0px;
 }
 
 .submit {
@@ -127,7 +135,6 @@ button {
 .correct-solution {
   display: block;
   color: #EC407A;
-  font-weight: bold;
   font-size: 100px;
 }
 
